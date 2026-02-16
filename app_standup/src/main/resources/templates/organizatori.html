@@ -1,0 +1,89 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="utf-8">
+    <title>Organizatori</title>
+    <link rel="stylesheet" th:href="@{/style.css}"/>
+    <style> .sort-link { text-decoration: none; color: white; margin-left: 5px; } .active-sort-link { color: #FFD700 ; } </style>
+</head>
+<body>
+<div class="container">
+    <div class='topline'>
+        <h1 style="margin:0;">Organizatori</h1>
+        <div style="text-align: right;">
+            <div th:if="${ses}">Salut, <b th:text="${ses.username}">user</b> (<span th:text="${ses.role}">role</span>)</div>
+            <div><a class='link' th:href='@{/logout}'>Logout</a></div>
+        </div>
+    </div>
+    <div th:if="${error}" style="color: red; margin-bottom: 10px;" th:text="${error}"></div>
+    <div th:if="${success}" style="color: green; margin-bottom: 10px;" th:text="${success}"></div>
+
+    <div class='card'>
+        <form method='GET' th:action='@{/organizatori}' class='search'>
+            <input name='q' placeholder='Caută nume/email/telefon' th:value="${search}" />
+            <button>Caută</button>
+        </form>
+
+        <div th:if="${ses != null and ses.role == 'admin'}" class="actions" style="margin-bottom: 15px;">
+            <details style="display: block;">
+                <summary class='btn add' style="cursor: pointer; display: inline-block;">+ Adaugă organizator (admin)</summary>
+                <form method='POST' th:action='@{/organizator/add}' class='form-inline' style="margin-top: 10px; padding: 10px; border: 1px solid #e3e6ea; border-radius: 8px;">
+                    <div style="flex: 1 1 45%; min-width: 200px;"><label>Nume:</label><input name='nume' required/></div>
+                    <div style="flex: 1 1 45%; min-width: 200px;"><label>Email:</label><input name='email' required/></div>
+                    <div style="flex: 1 1 45%; min-width: 200px; margin-top: 10px;"><label>Telefon:</label><input name='telefon'/></div>
+                    <div style="flex: 1 1 100%; text-align: right; margin-top: 10px;"><button type='submit' class='btn'>Adaugă</button></div>
+                </form>
+            </details>
+        </div>
+
+        <table class='table'>
+            <thead>
+            <tr>
+                <th>ID<a th:href="@{/organizatori(q=${search}, sortBy='ID', sortDir=${sortBy == 'ID' and sortDir == 'ASC' ? 'DESC' : 'ASC'})}" th:classappend="${sortBy == 'ID' ? 'active-sort-link' : ''}" class="sort-link">⇅</a></th>
+                <th>Nume<a th:href="@{/organizatori(q=${search}, sortBy='NUME', sortDir=${sortBy == 'NUME' and sortDir == 'ASC' ? 'DESC' : 'ASC'})}" class="sort-link">⇅</a></th>
+                <th>Email</th><th>Telefon</th>
+                <th th:if="${ses != null and ses.role == 'admin'}">Acțiuni</th>
+            </tr>
+            </thead>
+            <tbody>
+            <tr th:each="o : ${organizatoriList}">
+                <td th:text="${o.id}"></td><td th:text="${o.nume}"></td><td th:text="${o.email}"></td><td th:text="${o.telefon}"></td>
+                <td th:if="${ses != null and ses.role == 'admin'}">
+                    <div class="action-group">
+                        <form style='display:inline' method='POST' th:action='@{/organizator/delete}' onsubmit="return confirm('Confirmi?')">
+                            <input type='hidden' name='id' th:value="${o.id}"/><button class='btn del round'>X</button>
+                        </form>
+                        <details style='display:inline'>
+                            <summary class='btn edit'>Edit</summary>
+                            <form method='POST' th:action='@{/organizator/edit}' class='form-inline'>
+                                <input type='hidden' name='id' th:value="${o.id}"/>
+                                <input name='nume' th:value="${o.nume}"/><input name='email' th:value="${o.email}"/><input name='telefon' th:value="${o.telefon}"/>
+                                <button class='btn' type='submit'>Salvează</button>
+                            </form>
+                        </details>
+                    </div>
+                </td>
+            </tr>
+            <tr th:if="${organizatoriList.isEmpty()}"><td th:attr="colspan=${ses != null and ses.role == 'admin' ? 5 : 4}">Nu s-au găsit organizatori.</td></tr>
+            </tbody>
+        </table>
+    </div>
+
+    <div class="card" style="margin-top:20px; background:#f9f9f9;">
+        <h3>🤝 Ultimele 5 evenimente organizate</h3>
+        <ul th:if="${not #lists.isEmpty(recentShows)}">
+            <li th:each="r : ${recentShows}" th:text="${r.org + ' a organizat: ' + r.show}"></li>
+        </ul>
+    </div>
+
+    <div style='margin-top:12px;'>
+        <a class='link' th:href='@{/spectacole}'>Spectacole</a> |
+        <a class='link' th:href='@{/artisti}'>Artiști</a> |
+        <a class='link' th:href='@{/locatii}'>Locații</a> |
+        <span style="font-weight: bold; color: #555;">Organizatori</span> |
+        <a class='link' th:href='@{/bilete}'>Bilete</a>
+        <span th:if="${ses != null and ses.role == 'admin'}"> | <a class='link' th:href='@{/raport}'>Raport</a></span>
+    </div>
+</div>
+</body>
+</html>

@@ -1,0 +1,154 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width,initial-scale=1"/>
+    <title>Login - Stand-Up</title>
+    <link rel="stylesheet" th:href="@{/style.css}"/>
+
+    <style>
+        body {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+
+        .login-card {
+            background-color: rgba(255, 255, 255, 0.95);
+            padding: 50px;
+            max-width: 480px;
+            width: 100%;
+            border-radius: 15px;
+            box-shadow: 0 15px 35px rgba(0, 0, 0, 0.6);
+            text-align: center;
+        }
+
+        .login-form-group {
+            margin-bottom: 25px;
+            text-align: left;
+            width: 100%;
+        }
+
+        .login-form-group label {
+            display: block;
+            margin-bottom: 8px;
+            font-weight: 600;
+            color: #444;
+        }
+
+        .login-form-group input {
+            width: 100%;
+            padding: 14px;
+            box-sizing: border-box;
+            border: 1px solid #ccc;
+            border-radius: 6px;
+        }
+
+        .login-form-group input:focus {
+            outline: none;
+            border-color: #302b63;
+        }
+
+        .btn-login {
+            width: 100%;
+            padding: 14px;
+            background: linear-gradient(to right, #302b63, #24243e);
+            color: white;
+            border: none;
+            border-radius: 8px;
+            font-size: 18px;
+            font-weight: bold;
+            cursor: pointer;
+            margin-top: 20px;
+        }
+        .btn-login:hover { opacity: 0.9; }
+
+        .error-msg {
+            background-color: #ffe6e6;
+            color: #d9534f;
+            padding: 12px;
+            border-radius: 5px;
+            margin-bottom: 25px;
+            border: 1px solid #ebccd1;
+        }
+
+        details summary {
+            list-style: none;
+        }
+        details summary::-webkit-details-marker {
+            display: none;
+        }
+
+        .register-box {
+            margin-top: 20px;
+            background: #f1f4f8;
+            padding: 20px;
+            border-radius: 8px;
+            border: 1px solid #dee2e6;
+            text-align: left;
+        }
+    </style>
+</head>
+<body>
+
+<div class="login-card">
+    <h1>🎙️ Spectacole Stand-Up</h1>
+    <p class='lead'>Intră în cont pentru a rezerva cele mai bune locuri.</p>
+
+    <div th:if="${error}" class="error-msg" th:text="${error}">Eroare</div>
+    <div th:if="${success}" style="color: green; background: #d4edda; padding: 12px; border-radius: 5px; margin-bottom: 25px; border: 1px solid #c3e6cb;" th:text="${success}">Succes</div>
+
+    <form method='POST' th:action='@{/login}' class='form'>
+        <div class='login-form-group'>
+            <label for="username">Utilizator</label>
+            <input id="username" name='username' type="text" required />
+        </div>
+        <div class='login-form-group'>
+            <label for="password">Parolă</label>
+            <input id="password" type='password' name='password' required />
+        </div>
+
+        <div style="width:100%; text-align:center;">
+            <button type='submit' class="btn-login">Autentificare</button>
+        </div>
+    </form>
+
+    <hr style="margin: 30px 0; border: 0; border-top: 1px solid #eee;">
+
+    <details>
+        <summary style="cursor: pointer; color: #0d6efd; font-weight: bold; font-size: 15px;">Nu ai cont? Înregistrează-te aici</summary>
+
+        <div class="register-box">
+            <h3 style="margin-top: 0; margin-bottom: 15px; color: #333; font-size: 18px; text-align: center;">Creare Cont Nou</h3>
+            <form method='POST' th:action='@{/register}' class='form'>
+
+                <div class='login-form-group' style="margin-bottom: 15px;">
+                    <label style="font-size: 14px;">Nume Complet</label>
+                    <input name='regNume' type="text" placeholder="Ex: Popescu Ion" required style="padding: 10px;" />
+                </div>
+                <div class='login-form-group' style="margin-bottom: 15px;">
+                    <label style="font-size: 14px;">Email</label>
+                    <input name='regEmail' type="text" placeholder="Ex: popescu@gmail.com" required style="padding: 10px;" />
+                </div>
+                <div class='login-form-group' style="margin-bottom: 15px;">
+                    <label style="font-size: 14px;">Telefon (10 cifre)</label>
+                    <input name='regTelefon' type="text" placeholder="Ex: 0722123456" required style="padding: 10px;" />
+                </div>
+
+                <div class='login-form-group' style="margin-bottom: 15px;">
+                    <label style="font-size: 14px;">Username Nou</label>
+                    <input name='regUsername' type="text" placeholder="Ex: popescu123" required style="padding: 10px;" />
+                </div>
+                <div class='login-form-group' style="margin-bottom: 15px;">
+                    <label style="font-size: 14px;">Parolă Nouă</label>
+                    <input name='regPassword' type='password' placeholder="Alege o parolă" required style="padding: 10px;" />
+                </div>
+
+                <button type='submit' class="btn" style="width: 100%; background: #198754; color: white; padding: 12px; font-weight: bold; border: none; border-radius: 6px; cursor: pointer;">Creează Cont</button>
+            </form>
+        </div>
+    </details>
+</div>
+
+</body>
+</html>

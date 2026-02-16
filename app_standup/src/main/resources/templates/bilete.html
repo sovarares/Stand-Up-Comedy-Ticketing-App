@@ -1,0 +1,66 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="utf-8">
+    <title>Bilete Cumpărate</title>
+    <link rel="stylesheet" th:href="@{/style.css}"/>
+    <style> .sort-link { text-decoration: none; color: white; margin-left: 5px; } .active-sort-link { color: #FFD700 ; } </style>
+</head>
+<body>
+<div class="container">
+    <div class='topline'>
+        <h1 style="margin:0;">Bilete Cumpărate</h1>
+        <div style="text-align: right;">
+            <div th:if="${ses}">Salut, <b th:text="${ses.username}">user</b> (<span th:text="${ses.role}">role</span>)</div>
+            <div><a class='link' th:href='@{/logout}'>Logout</a></div>
+        </div>
+    </div>
+    <div th:if="${error}" style="color: red; margin-bottom: 10px;" th:text="${error}"></div>
+    <div th:if="${success}" style="color: green; margin-bottom: 10px;" th:text="${success}"></div>
+
+    <div class='card'>
+        <div th:if="${ses.idSpectator == null and ses.role != 'admin'}" style="color: #dc3545; font-weight: bold; margin-bottom: 12px;">
+            Contul tău nu este asociat unui Spectator.
+        </div>
+
+        <table class='table'>
+            <thead>
+            <tr>
+                <th>ID Bilet<a th:href="@{/bilete(sortBy='ID', sortDir=${sortBy == 'ID' and sortDir == 'ASC' ? 'DESC' : 'ASC'})}" class="sort-link">⇅</a></th>
+                <th>Spectacol<a th:href="@{/bilete(sortBy='TITLU', sortDir=${sortBy == 'TITLU' and sortDir == 'ASC' ? 'DESC' : 'ASC'})}" class="sort-link">⇅</a></th>
+                <th th:if="${ses.role == 'admin'}">Spectator<a th:href="@{/bilete(sortBy='SPECTATOR', sortDir=${sortBy == 'SPECTATOR' and sortDir == 'ASC' ? 'DESC' : 'ASC'})}" class="sort-link">⇅</a></th>
+                <th>Data Cumpărare<a th:href="@{/bilete(sortBy='DATA', sortDir=${sortBy == 'DATA' and sortDir == 'DESC' ? 'ASC' : 'DESC'})}" class="sort-link">⇅</a></th>
+                <th>Cod Bilet<a th:href="@{/bilete(sortBy='COD', sortDir=${sortBy == 'COD' and sortDir == 'ASC' ? 'DESC' : 'ASC'})}" class="sort-link">⇅</a></th>
+            </tr>
+            </thead>
+            <tbody>
+            <tr th:each="b : ${bileteList}">
+                <td th:text="${b.id}"></td>
+                <td th:text="${b.spectacol}"></td>
+                <td th:if="${ses.role == 'admin'}" th:text="${b.spectator}"></td>
+                <td th:text="${b.data_cumparare}"></td>
+                <td th:text="${b.cod}"></td>
+            </tr>
+            <tr th:if="${bileteList.isEmpty()}"><td th:attr="colspan=${ses.role == 'admin' ? 5 : 4}">Nu s-au găsit bilete.</td></tr>
+            </tbody>
+        </table>
+    </div>
+
+    <div class="card" th:if="${ses.role == 'admin' and not #lists.isEmpty(recentTickets)}" style="margin-top:20px; border-left: 5px solid #0d6efd;">
+        <h3>🎫 Ultimele 3 bilete vândute (Global)</h3>
+        <ul>
+            <li th:each="rt : ${recentTickets}" th:text="${'Cod: ' + rt.cod + ' | ' + rt.info}"></li>
+        </ul>
+    </div>
+
+    <div style='margin-top:12px;'>
+        <a class='link' th:href='@{/spectacole}'>Spectacole</a> |
+        <a class='link' th:href='@{/artisti}'>Artiști</a> |
+        <a class='link' th:href='@{/locatii}'>Locații</a> |
+        <a class='link' th:href='@{/organizatori}'>Organizatori</a> |
+        <span style="font-weight: bold; color: #555;">Bilete</span>
+        <span th:if="${ses != null and ses.role == 'admin'}"> | <a class='link' th:href='@{/raport}'>Raport</a></span>
+    </div>
+</div>
+</body>
+</html>

@@ -1,0 +1,81 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="utf-8">
+    <title>Raport Managerial</title>
+    <link rel="stylesheet" th:href="@{/style.css}"/>
+</head>
+<body>
+<div class="container">
+    <div class='topline'>
+        <h1 style="margin:0;">Raport și Statistici</h1>
+        <div style="text-align: right;">
+            <div><a class='link' th:href='@{/spectacole}'>Înapoi</a></div>
+        </div>
+    </div>
+
+    <div class="card" style="background: #eef2f6;">
+        <h3 style="margin-top:0;">Filtrare Perioadă (Vânzări)</h3>
+        <form method="GET" action="/raport" class="form-inline">
+            <label>De la: <input type="date" name="startDate" th:value="${startDate}"></label>
+            <label>Până la: <input type="date" name="endDate" th:value="${endDate}"></label>
+            <button class="btn">Actualizează Raport</button>
+        </form>
+    </div>
+
+    <div style="display: flex; flex-wrap: wrap; gap: 20px;">
+
+        <div class="card" style="flex: 1 1 45%;">
+            <h3>💰 Vânzări per Spectacol (Filtrat)</h3>
+            <table class="table">
+                <thead><tr><th>Titlu</th><th>Bilete</th><th>Total</th></tr></thead>
+                <tbody>
+                <tr th:each="v : ${listaVanzari}">
+                    <td th:text="${v.titlu}"></td>
+                    <td th:text="${v.nr}"></td>
+                    <td th:text="${v.total} + ' lei'"></td>
+                </tr>
+                </tbody>
+            </table>
+        </div>
+
+        <div class="card" style="flex: 1 1 45%;">
+            <h3>🏆 Top Organizatori (Încasări)</h3>
+            <table class="table">
+                <thead><tr><th>Nume</th><th>Total</th></tr></thead>
+                <tbody>
+                <tr th:each="o : ${topOrganizatori}">
+                    <td th:text="${o.nume}"></td>
+                    <td th:text="${o.total} + ' lei'"></td>
+                </tr>
+                </tbody>
+            </table>
+        </div>
+
+        <div class="card" style="flex: 1 1 45%;">
+            <h3>🏢 Grad de Ocupare Locații</h3>
+            <table class="table">
+                <thead><tr><th>Locație</th><th>Procent</th></tr></thead>
+                <tbody>
+                <tr th:each="g : ${gradOcupare}">
+                    <td th:text="${g.nume}"></td>
+                    <td th:text="${g.procent}"></td>
+                </tr>
+                </tbody>
+            </table>
+        </div>
+
+        <div class="card" style="flex: 1 1 45%;">
+            <h3>🥇 Cel mai fidel spectator</h3>
+            <p style="font-size: 1.2em; font-weight: bold; color: #198754;" th:text="${fidel}">-</p>
+
+            <hr>
+            <h4>📋 Listă control rapidă (Show + Locație)</h4>
+            <ul>
+                <li th:each="c : ${checkList}" th:text="${c}"></li>
+            </ul>
+        </div>
+    </div>
+</div>
+</body>
+</html>

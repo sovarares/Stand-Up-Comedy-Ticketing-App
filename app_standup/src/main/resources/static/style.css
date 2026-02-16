@@ -1,0 +1,218 @@
+:root {
+    --primary: #0d6efd;
+    --danger: #dc3545;
+    --success: #198754;
+    --warning: #ffc107;
+    --muted: #666;
+}
+
+body {
+    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+    background: linear-gradient(135deg, #0f0c29, #302b63, #24243e);
+    background-attachment: fixed;
+    margin: 0;
+    padding: 20px;
+    min-height: 100vh;
+    color: #333;
+}
+
+.container {
+    max-width: 1200px;
+    margin: 20px auto;
+    background-color: rgba(255, 255, 255, 0.95);
+    padding: 30px;
+    border-radius: 15px;
+    box-shadow: 0 15px 35px rgba(0, 0, 0, 0.5);
+}
+
+.card {
+    padding: 18px;
+    border-radius: 8px;
+    background: #fff;
+    box-shadow: 0 4px 12px rgba(13, 14, 15, 0.08);
+    margin-bottom: 12px;
+    border: 1px solid #eee;
+}
+
+h1 {
+    margin: 0 0 15px;
+    font-size: 28px;
+    color: #222;
+    font-weight: 700;
+}
+
+.lead {
+    color: var(--muted);
+    margin-bottom: 12px;
+}
+
+/* FORMULARE */
+form.form,
+.form-inline {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 10px;
+}
+
+form.form label {
+    width: 100%;
+    font-weight: 600;
+}
+
+input[type=text],
+input[type=password],
+input[type=date],
+input[type=number],
+input[type=time],
+input,
+select {
+    padding: 10px;
+    border-radius: 6px;
+    border: 1px solid #ccc;
+    min-height: 38px;
+    font-size: 14px;
+}
+
+input:focus {
+    outline: none;
+    border-color: var(--primary);
+    box-shadow: 0 0 5px rgba(13, 110, 253, 0.3);
+}
+
+.actions {
+    margin-top: 12px;
+}
+
+/* BUTOANE GENERALE */
+button,
+.btn {
+    background: var(--primary);
+    color: white;
+    border: none;
+    padding: 10px 16px;
+    border-radius: 6px;
+    cursor: pointer;
+    font-weight: 600;
+    font-size: 14px;
+    text-decoration: none;
+    display: inline-block;
+    transition: filter 0.2s, transform 0.1s;
+}
+
+button:hover, .btn:hover {
+    filter: brightness(1.1);
+}
+
+button:active, .btn:active {
+    transform: scale(0.98);
+}
+
+/* Link-uri simple */
+.link {
+    color: var(--primary);
+    text-decoration: none;
+    font-weight: 600;
+}
+
+.link:hover {
+    text-decoration: underline;
+}
+
+/* TABELE */
+table.table {
+    width: 100%;
+    border-collapse: collapse;
+    margin-top: 15px;
+    background: white;
+    border-radius: 8px;
+    overflow: hidden;
+}
+
+table.table th,
+table.table td {
+    padding: 12px;
+    border-bottom: 1px solid #eee;
+    text-align: center;
+}
+
+table.table th {
+    background: var(--primary);
+    color: white;
+    font-weight: 600;
+    border: none;
+}
+
+table.table tbody tr:hover {
+    background-color: #f1f4f8;
+}
+
+/* SĂGEȚI */
+details > summary {
+    list-style: none;
+}
+details > summary::-webkit-details-marker {
+    display: none;
+}
+
+/* BUTOANE SPECIFICE */
+.action-group {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    gap: 5px;
+}
+
+.btn.del {
+    background: var(--danger);
+    width: 32px;
+    height: 32px;
+    border-radius: 50%;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    padding: 0;
+}
+
+.btn.edit {
+    background: var(--warning) !important;
+    color: #212529 !important; /* Text negru pe galben */
+    padding: 6px 12px;
+    display: inline-flex;
+    justify-content: center;
+    align-items: center;
+}
+
+.btn.add {
+    background: var(--success) !important;
+    color: white !important;
+    padding: 10px 20px;
+    border-radius: 8px;
+    display: inline-block;
+}
+
+/* HEADER PAGINA */
+.topline {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 25px;
+    border-bottom: 2px solid #eee;
+    padding-bottom: 15px;
+}
+
+.search {
+    display: flex;
+    gap: 10px;
+    align-items: center;
+    margin-bottom: 20px;
+}
+
+.search input {
+    flex: 1;
+}
+
+@media(max-width: 700px) {
+    .container { padding: 15px; }
+    .form-inline input { flex: 1 1 100%; }
+    .topline { flex-direction: column; align-items: flex-start; gap: 10px; }
+}
